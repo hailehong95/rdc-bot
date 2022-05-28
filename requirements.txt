@@ -1,0 +1,4 @@
+python-telegram-bot==13.12
+pyinstaller==5.1
+tinyaes==1.0.3
+psutil==5.9.1

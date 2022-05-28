@@ -1,0 +1,9 @@
+.env/
+.idea/
+build/
+releases/
+__pycache__/
+*.spec
+*.log
+packer/upx32/upx.exe
+packer/upx64/upx.exe
