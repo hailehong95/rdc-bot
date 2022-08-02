@@ -27,21 +27,22 @@ Solve this problem, let's go build a **Bot Telegram** will run on the remote com
 
 ## 3. How it works
 
-Bot help interface:
+Bot help menu:
 
 ![help](assets/help.png)
 
 ### 3.1. Use Windows Firewall to control
+
 To be able to use it, make sure Windows Firewall is enabled on the remote computer:
 
 ![error_firewall](assets/error_firewall.png)
 
-Allow RDP connections:
+Allow RDP connection:
 
 ![on](assets/on.png)
 
 
-RDP connection block:
+Block RDP connection:
 
 ![off](assets/off.png)
 
