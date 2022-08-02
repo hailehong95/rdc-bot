@@ -79,4 +79,4 @@ Finally, **Run** task just created:
 
 Now you can Chat with Bot to control Enable/Disable external RDP connection.
 
-To check one last time, you restart the remote computer. After rebooting, you can chat with the Bot to verify that RDC-Bot has been started on the remote computer.
+To check a last time, you restart the remote computer. After rebooting, you can chat with the Bot to verify that RDC-Bot has been started on the remote computer.

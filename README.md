@@ -10,7 +10,7 @@ To ensure safety during remote access through **Remote Desktop** on Windows OS, 
 
 Here I would like to introduce two methods **"not new and less expensive"**, that is to use **Windows Firewall** to control RDP connection. The second way is to connect 2 machines to the same VPN network, only when we have a need to connect RDP to the remote computer will we **ON** to allow the connection. When there is no need to use it anymore, we will **OFF**. This both ensures safety as well as avoids **[Port scanning](https://en.wikipedia.org/wiki/Port_scanner)** by hackers or **[Brute-force](https://en.wikipedia.org/wiki/Brute-force_attack)** attacks password.
 
-Solve this problem, let's go build one **Bot Telegram** will run on the remote computer. Then the home computer or company that wants to RDP in just send a command to the Bot through the Telegram application to **ON** or **OFF**.
+Solve this problem, let's go build a **Bot Telegram** will run on the remote computer. Then the home computer or company that wants to RDP in just send a command to the Bot through the Telegram application to **ON** or **OFF**.
 
 
 ## 1. Bot Features
