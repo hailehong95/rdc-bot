@@ -1,86 +1,89 @@
 # Remote Desktop Control
 
-Để đảm bảo an toàn trong quá trình truy cập từ xa thông qua **Remote Desktop** trên HĐH Windows, Chúng ta có thể thiết lập một số cấu hình an toàn như:
+To ensure safety during remote access through **Remote Desktop** on Windows OS, We can set up some security configurations such as:
 
-- Đặt mật khẩu đủ [MẠNH](https://www.lastpass.com/features/password-generator)
-- Không sử dụng Port mặc định: [3389](https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/change-listening-port)
-- Xác thực 2 bước với **[Duo Security](https://duo.com/docs/rdp)**
-- Cấu hình tường lửa cho phép hoặc chặn kết nối tùy thời điểm và ngữ cảnh.
+- Set **[STRONG](https://www.lastpass.com/features/password-generator)** password
+- Do not use the default Port: **[3389](https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/change-listening-port)**
+- 2FA with **[Duo Security](https://duo.com/docs/rdp)**
+- Configure the firewall to allow or block connections depending on the time and context
 - v.v..
 
-Trong phần này tôi giới thiệu hai phương pháp **"không mới và ít tốn kém"** hơn cả đó là lợi dụng chính **Windows Firewall** để kiểm soát kết nối RDP, cách thứ 2 là kết nối 2 máy vào cùng một mạng VPN. Chỉ khi nào chúng ta có nhu cầu kết nối RDP đến máy tính ở xa thì chúng ta mới **BẬT** cho phép kết nối. Khi không có nhu cầu sử dụng nữa, chúng ta sẽ **TẮT**. Việc này vừa đảm bảo an toàn cũng như tránh được các đối tượng bên ngoài **[Rà quét cổng](https://en.wikipedia.org/wiki/Port_scanner)** hay tấn công **[Brute-force](https://en.wikipedia.org/wiki/Brute-force_attack)** mật khẩu.
+Here I would like to introduce two methods **"not new and less expensive"**, that is to use **Windows Firewall** to control RDP connection. The second way is to connect 2 machines to the same VPN network, only when we have a need to connect RDP to the remote computer will we **ON** to allow the connection. When there is no need to use it anymore, we will **OFF**. This both ensures safety as well as avoids **[Port scanning](https://en.wikipedia.org/wiki/Port_scanner)** by hackers or **[Brute-force](https://en.wikipedia.org/wiki/Brute-force_attack)** attacks password.
 
-Giải quyết vấn đề này, ta đi xây dựng một con **Bot Telegram** sẽ chạy ở phía máy tính ở xa đó. Khi đó máy tính tại nhà hoặc cty muốn RDP vào chỉ cần gửi lệnh cho Bot thông qua ứng dụng Telegram để **BẬT** hoặc **TẮT**.
+Solve this problem, let's go build one **Bot Telegram** will run on the remote computer. Then the home computer or company that wants to RDP in just send a command to the Bot through the Telegram application to **ON** or **OFF**.
 
 
-## 1. Các tính năng của Bot
-- `/rdp on|off|check`: Quản lý RDP
-- `/vpn on|off|check`: Quản lý VPN
-- Tương tác qua ứng dụng nhắn tin Telegram
+## 1. Bot Features
 
-## 2. Các trường hợp sử dụng
+- `/rdp on|off|check`: Managing RDP
+- `/vpn on|off|check`: Managing VPN
+- Interact via Telegram messaging app
 
-- Remote Desktop đến Windows Cloud/VPS Server,.v.v..
-- Work from Home - Truy cập vào máy tính trên cty
+## 2. Use cases
 
-## 3. Cách thức hoạt động
+- Remote Desktop to Windows Cloud/VPS Server, etc.
+- Work from Home - Access to the company computer
+- .v.v.
 
-Giao diện trợ giúp của Bot:
+## 3. How it works
+
+Bot help interface:
 
 ![help](assets/help.png)
 
-### 3.1. Sử dụng Windows Firewall để kiểm soát
-Để có thể sử dụng thì phải đảm bảo Windows Firewall luôn được bật phía máy tính ở xa:
+### 3.1. Use Windows Firewall to control
+To be able to use it, make sure Windows Firewall is enabled on the remote computer:
 
 ![error_firewall](assets/error_firewall.png)
 
-Cho phép kết nối RDP:
+Allow RDP connections:
 
 ![on](assets/on.png)
 
 
-Từ chối kết nối RDP:
+RDP connection block:
 
 ![off](assets/off.png)
 
 
-**Giải thích:** Theo mặc định Windows Firewall có một bộ gồm 3 rules để kiểm soát RDP. Khi chúng ta ra lệnh cho Bot Bật hoặc Tắt chính là chúng ta đang Enable hoặc Disalbe các rules này.
+**Explanation:** By default Windows Firewall has a set of 3 rules to control RDP. When we command the bot On/Off, we are Enable/Disable these rules.
 
 ![rules](assets/rules.png)
 
 
-### 3.2. Sử dụng VPN để RDP
+### 3.2. Use VPN to RDP
 
-Kết nối máy đích đến VPN Server
+Connect the destination machine to the VPN Server
 
 ![vpn_on](assets/vpn_on.png)
 
-Kiểm tra trạng thái VPN
+Check VPN Status
 
 ![vpn_check](assets/vpn_check.png)
 
-Ngắt kết nối VPN
+Disconnect VPN
 
 ![vpn_off](assets/vpn_off.png)
 
-Tại máy client ta cũng kết nối đến VPN Server, khi đó cả 2 máy sẽ cùng chung mạng VPN và đã có thể RDP.
+At the client machine, we also connect to the VPN Server, then both machines will share the same VPN network and can RDP.
 
 
-## 4. Hướng dẫn build từ mã nguồn
+## 4. How to build telegram bot
 
-Bot được viết bằng Python nên có thể gây khó khăn khi phân phối ứng dụng. Khắc phục vấn đề này tôi sử dụng gói **[PyInstaller](https://www.pyinstaller.org/)** để đóng gói ứng dụng thành một tệp ***.EXE** duy nhất để có thể chạy được trên các máy tính Windows khác nhau mà không cần phải cài Python. 
+RDC-Bot are written in Python, so it can be difficult to distribute to users. To fix this problem I used the **[PyInstaller](https://www.pyinstaller.org/)** package to packing the application into a single ***.EXE** file that can be run on different Windows computers without having to install Python.
 
-- [rdcbot.py](rdcbot.py): Bot viết bằng Python
-- [rdcutil.py](rdcutil.py): Builder. Tự động đóng gói, build Bot thành EXE.
+- [rdcbot.py](rdcbot.py): Telegram Bot
+- [rdcutil.py](rdcutil.py): Builder
 
-Các bước build Bot từ mã nguồn:
+1. Install [Python](https://www.python.org/downloads/windows/)
+2. Download or use Git to clone Bot source code:
 
-1. Cài đặt [Python](https://www.python.org/downloads/windows/)
-2. Download hoặc dùng Git clone mã nguồn Bot:
     ```bash
-    $ git clone https://github.com/hailehong95/RDC-Bot.git
+    $ git clone https://github.com/hailehong95/rdc-bot.git
     ```
-3. Cài đặt Virtualenv và tạo môi trường ảo:
+
+3. Install Virtualenv and create virtual environment:
+
     ```bash
    $ cd rdcbot
    $ pip3 install virtualenv
@@ -88,18 +91,19 @@ Các bước build Bot từ mã nguồn:
    $ venv\Scripts\activate
    $ (venv) pip install -r requirements.txt
     ```
-4. Build bot
 
-   - Tùy chọn (Không bắt buộc): Download [UPX Packer](https://upx.github.io/) và đặt vào thư mục `upx32` hoặc `upx64` tương ứng bên trong thư mục `packer`. Xem [README.md](packer/README.md)
+4. Build Bot
+
+   - Optional: Download [UPX Packer](https://upx.github.io/) and put in folder `upx32` or `upx64` respectively inside `packer` folder.
 
     ```bash
     $ (venv) python rdcutil.py
     ```
-6. Kết quả
 
-- Kiểm tra trong thư mục `releases` xuất hiện tệp `rdcbot.exe`
+5. Result
 
+    - Check the file `rdcbot.exe` in the folder `releases`
 
-## 5. Cài đặt và cấu hình
+## 5. Installation and configuration
 
-Tham khảo: [Cài đặt và cấu hình RDCBot](docs)
+Please read: [docs](docs)

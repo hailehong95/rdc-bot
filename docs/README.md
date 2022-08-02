@@ -1,45 +1,44 @@
-# Cài đặt và cấu hình RDCBot
+# Install and configure RDC-Bot
 
-## 1. Tạo Telegram Bot với BotFather
+## 1. Create Telegram Bot with BotFather
 
-Chat với **[BotFather](https://t.me/botfather)** và tạo Bot tương tự như các bước sau:
+Chat with **[BotFather](https://t.me/botfather)** and create a Bot similar to the following steps:
 
 ![create bot](images/create_bot.png)
 
-Lưu lại chuỗi Bot token bạn. Ví dụ của tôi là: `1961708813:AAGpCDCx2YeQYWLX5ba8AAlYmhNQtI44qt8`
+Save your Bot token. My example is: `1961708813:AAGpCDCx2YeQYWLX5ba8AAlYmhNQtI44qt8`
 
+## 2. Get Telegram ChatID with GetIDs Bot
 
-## 2. Lấy Telegram ChatID với GetIDs Bot
-
-Chat với **[GetIDs Bot](https://t.me/getidsbot)** để lấy Telegram ID của bạn:
+Chat with **[GetIDsBot](https://t.me/getidsbot)** to get your Telegram ID:
 
 ![Get Chat ID](images/get_chat_id.png)
 
-Lưu lại chuỗi ChatID của bạn. Ví dụ của tôi là: `775551874`
+Save your ChatID string. My example is: `775551874`
 
-## 3. Thêm Commands cho Bot
+## 3. Add Commands for Bot
 
-Chat với **[BotFather](https://t.me/botfather)** nội dung: `/mybots`
+Chat with **[BotFather](https://t.me/botfather)** message: `/mybots`
 
-Chọn Bot mà bạn vừa tạo > Chọn **Edit Bot** > Chọn **Edit Commands** > Nhập nội dung sau hoặc tương tự, tùy bạn:
+Select the Bot you just created> **Edit Bot** > **Edit Commands** > Enter the following or something similar, it's up to you:
 
 ```
 vpn - Quản lý VPN
 rdp - Quản lý RDP
 help - Trợ giúp
 ```
-Kết quả: Khi chat với Bot bạn chỉ cần nhập `/` để Bot hiển thị các command được hỗ trợ. Khi nhập command bất kỳ bạn chỉ cần nhập một vài ký tự đầu sau đó nhấn phím `Tab`
+
+When sending a message to the Bot, simply enter `/` to let the Bot display the supported commands.
 
 ![List Commands](images/command.png)
 
-## 4. Sửa file cấu hình RDCBot
+## 4. Edit RDC-Bot configuration file
 
-Trên máy tính từ xa cần thiết lập kiểm soát RDP, tạo thư mục và đặt tên bất kỳ sẽ chứa Bot và tệp cấu hình. Bạn cần cấu hình **Windows Defender** exclude thư mục này để tránh nó nhận diện nhầm là virus. Tham khảo cách cấu hình: [Link](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26)
+On the remote computer, you need to configure **Windows Defender** to exclude the folder containing the RDC-Bot to avoid it being mistakenly identified as a virus. example: [Link](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26)
 
-Chép tệp `rdcbot.exe` bạn đã build được bên trong thư mục `releases` và tệp cấu hình mẫu `rdc-bot.conf` tôi cung cấp vào thư mục bạn đã tạo vừa tạo bên trên.
+Copy the `rdcbot.exe` file you built inside the `releases` directory and the sample configuration file `rdc-bot.conf` into the av exclude directory.
 
-
-Chỉnh sửa tệp `rdc-bot.conf`. Điền các giá trị Bot token và ChatID phù hợp của bạn đã nhận được ở các bước trước:
+Edit the file `rdc-bot.conf`. Fill in the appropriate Bot token and ChatID values:
 
 ```
 {
@@ -50,35 +49,34 @@ Chỉnh sửa tệp `rdc-bot.conf`. Điền các giá trị Bot token và ChatID
 }
 ```
 
-## 5. Cấu hình Bot khởi động lại khi máy tính reboot
+## 5. Configure auto-restart bot
 
-Trên máy tính từ xa cần thiết lập kiểm soát RDP, mở **Task Scheduler** sau đó chọn **Create Task..**
+On the remote computer that needs to set up RDP control, open **Task Scheduler**  > **Create Task..**
 
 ![Create Task](images/1_create.png)
 
-Tại Tab **General** đặt tên task và thiết lập một số tùy chọn như hình sau:
+In **General** tab, set task name and set some options:
 
 ![General Config](images/2_general.png)
 
-
-Tại Tab **Triggers** thiết lập như sau:
+In **Triggers** tab:
 
 ![Triggers](images/3_triggers.png)
 
-Tại Tab **Action** thiết lập như sau:
+In **Action** tab:
 
 ![Actions](images/4_actions.png)
 
-Phần **Program/Script**: Bạn cần trỏ đến đường dẫn chứa chương trình Bot bạn đã tạo trước đó.
+In **Program/Script** section: You need to point to the full path of the RDC-Bot.
 
-Bước tiếp theo là xác thực: Bạn cần nhập mật khẩu để toàn tất tạo Task Schedule
+The next step is authentication: You need to enter the password to completely create Task Schedule
 
 ![Authen](images/5_authen.png)
 
-Cuối cùng là **Run** Task vừa tạo:
+Finally, **Run** task just created:
 
 ![Run](images/6_run.png)
 
-Bây giờ bạn đã có thể Chat với Bot để kiểm soát Bật/Tắt việc cho phép hay không kết nối RDP từ bên ngoài.
+Now you can Chat with Bot to control Enable/Disable external RDP connection.
 
-Để kiểm tra lần cuối, bạn khởi động lại máy tính. Sau khi khởi động lại, bạn có thể chat với Bot để kiểm chứng RDCBot đã được khởi động ở máy tính từ xa kia.
+To check one last time, you restart the remote computer. After rebooting, you can chat with the Bot to verify that RDC-Bot has been started on the remote computer.
